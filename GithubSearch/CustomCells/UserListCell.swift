@@ -150,14 +150,5 @@ class UserListCell: UITableViewCell {
         self.profileImageView.kf.setImage(with: URL(string: user.avatar_url))
         self.usernameLabel.text = user.login
         self.scoreLabel.text = "score: \(user.score)"
-        //        if(user.isClicked){
-        //            self.orgScrollView.snp.updateConstraints{
-        //                $0.height.equalTo(40)
-        //            }
-        //        }else{
-        //            self.orgScrollView.snp.updateConstraints{
-        //                $0.height.equalTo(0)
-        //            }
-        //        }
     }
 }

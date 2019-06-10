@@ -57,21 +57,25 @@ class SearchViewController: UIViewController {
         mainSearchBar.rx.text.orEmpty
             .debounce(0.5, scheduler: MainScheduler.instance)
             .subscribe(onNext: { text in
-                let params = ["q": text]
-                Alamofire.request(SEARCH_URL, method: .get, parameters: params).validate()
-                    .responseJSON { (resposne) in
-                        self.userList.removeAll()
-                        print(resposne)
-                        guard let users: [JSON] = JSON(resposne.result.value as Any)["items"].array else { return }
-                        
-                        for user in users {
-                            if let userData = GithubUserModel(json: user) {
-                                self.userList.append(userData)
+                if(text == ""){
+                    self.userList.removeAll()
+                    self.mainTableView.reloadData()
+                }else{
+                    let params = ["q": text]
+                    Alamofire.request(SEARCH_URL, method: .get, parameters: params).validate()
+                        .responseJSON { (resposne) in
+                            self.userList.removeAll()
+                            print(resposne)
+                            guard let users: [JSON] = JSON(resposne.result.value as Any)["items"].array else { return }
+                            
+                            for user in users {
+                                if let userData = GithubUserModel(json: user) {
+                                    self.userList.append(userData)
+                                }
                             }
-                        }
-                        self.mainTableView.reloadData()
+                            self.mainTableView.reloadData()
+                    }
                 }
-                
             })
             .disposed(by: disposeBag)
         
@@ -132,24 +136,11 @@ extension SearchViewController: UITableViewDelegate {
         cell.orgScrollView.snp.updateConstraints{
             $0.height.equalTo(100)
         }
-        //        cell.snp.makeConstraints {
-        //            $0.height.equalTo(200)
-        //        }
         tableView.beginUpdates()
         tableView.reloadRows(at: [indexPath], with: .automatic)
         tableView.endUpdates()
     }
-    
-    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! UserListCell
-    //
-    //        if(cell.isClicked){
-    //            return 300
-    //        }else{
-    //            return 100
-    //        }
-    //
-    //    }
+
 }
 
 extension SearchViewController: UISearchBarDelegate {

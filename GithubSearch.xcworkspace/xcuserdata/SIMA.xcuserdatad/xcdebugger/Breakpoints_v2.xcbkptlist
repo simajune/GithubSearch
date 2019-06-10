@@ -10,29 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GithubSearch/Controllers/SearchViewController.swift"
-            timestampString = "581583813.39294"
+            timestampString = "581651486.618229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "searchBarCancelButtonClicked(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GithubSearch/Controllers/SearchViewController.swift"
-            timestampString = "581583884.212442"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "setController()"
-            landmarkType = "7">
+            startingLineNumber = "161"
+            endingLineNumber = "161">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
