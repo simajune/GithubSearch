@@ -44,29 +44,12 @@ class UserListCell: UITableViewCell {
         return label
     }()
     
-    //기업 리스트 뷰
-    let orgScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.backgroundColor = .green
-        return scrollView
-    }()
-    
-    //기업 리스트 뷰
-    let orgView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        return view
-    }()
-    
-    //기업 이미지 뷰
-    let orgImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 20
-        imageView.layer.borderColor = UIColor.lightGray.cgColor
-        imageView.layer.borderWidth = 0.5
-        imageView.backgroundColor = .gray
-        return imageView
+    //좋아요 버튼
+    let likeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "EmptyLike"), for: .normal)
+        button.setImage(UIImage(named: "SelectedLike"), for: .selected)
+        return button
     }()
     
     //MARK: - Life Cycle
@@ -92,16 +75,12 @@ class UserListCell: UITableViewCell {
     
     //MARK: - Method
     private func setView(){
-        let tapGetsture = UITapGestureRecognizer(target: self, action: #selector(tapAction(_:)))
         
         self.addSubview(baseView)
         self.baseView.addSubview(profileImageView)
         self.baseView.addSubview(usernameLabel)
         self.baseView.addSubview(scoreLabel)
-        self.baseView.addSubview(orgScrollView)
-        self.orgScrollView.addSubview(orgView)
-        
-        self.addGestureRecognizer(tapGetsture)
+        self.baseView.addSubview(likeButton)
         
         self.baseView.snp.makeConstraints {
             $0.top.leading.equalTo(self).offset(25)
@@ -128,21 +107,22 @@ class UserListCell: UITableViewCell {
             $0.bottom.equalTo(self.profileImageView.snp.bottom)
         }
         
-        self.orgScrollView.snp.makeConstraints{
-            $0.top.equalTo(self.profileImageView.snp.bottom).offset(3)
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(0)
-            $0.leading.equalTo(profileImageView)
+        self.likeButton.snp.makeConstraints{
+            $0.width.height.equalTo(20)
+            $0.centerY.equalTo(baseView)
             $0.trailing.equalToSuperview()
         }
+        
+        self.likeButton.addTarget(self, action: #selector(likeButtonAction(_:)), for: .touchUpInside)
     }
     
-    @objc func tapAction(_ sender: UITapGestureRecognizer){
-        print("눌렸다")
-        if(isClicked){
-            self.isClicked = false
+    @objc private func likeButtonAction(_ sender: UIButton) {
+        if(sender.isSelected){
+            print("안눌림")
+            sender.isSelected = false
         }else{
-            self.isClicked = true
+            print("눌림")
+            sender.isSelected = true
         }
     }
     

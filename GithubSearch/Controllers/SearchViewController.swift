@@ -133,12 +133,13 @@ extension SearchViewController: UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? UserListCell else{
             fatalError("Not found UserListCell")
         }
-        cell.orgScrollView.snp.updateConstraints{
-            $0.height.equalTo(100)
-        }
         tableView.beginUpdates()
         tableView.reloadRows(at: [indexPath], with: .automatic)
         tableView.endUpdates()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 
 }
