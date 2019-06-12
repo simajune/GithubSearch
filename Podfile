@@ -21,7 +21,10 @@ target 'GithubSearch' do
 
   #HUD
   pod 'MBProgressHUD'
-  
+
+  #DB
+  pod 'RealmSwift'
+
   # Pods for GithubSearch
 
 end

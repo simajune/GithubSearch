@@ -130,5 +130,6 @@ class UserListCell: UITableViewCell {
         self.profileImageView.kf.setImage(with: URL(string: user.avatar_url))
         self.usernameLabel.text = user.login
         self.scoreLabel.text = "score: \(user.score)"
+        self.likeButton.isSelected = user.isLike
     }
 }
