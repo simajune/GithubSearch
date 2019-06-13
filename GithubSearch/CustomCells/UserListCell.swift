@@ -3,13 +3,15 @@ import UIKit
 import Kingfisher
 
 protocol UserListCellDelegate {
-    func clicked()
+    func clicked(iSelected: Bool, index: Int)
 }
 
 class UserListCell: UITableViewCell {
     
     //MARK:: - Property
     var isClicked: Bool = false
+    var index: Int?
+    var delegate: UserListCellDelegate?
     
     //컨텐츠 뷰
     let baseView: UIView = {
@@ -56,12 +58,10 @@ class UserListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setView()
-        print("init")
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        print("prepare")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -117,16 +117,36 @@ class UserListCell: UITableViewCell {
     }
     
     @objc private func likeButtonAction(_ sender: UIButton) {
+        guard let index = index else { return }
         if(sender.isSelected){
             print("안눌림")
+            delegate?.clicked(iSelected: false, index: index)
             sender.isSelected = false
         }else{
+            delegate?.clicked(iSelected: true, index: index)
             print("눌림")
             sender.isSelected = true
         }
     }
     
-    func setUI(user: GithubUserModel){
+    func setUI(user: GithubUserModel, at index: Int){
+        self.index = index
+        self.profileImageView.kf.setImage(with: URL(string: user.avatar_url))
+        self.usernameLabel.text = user.login
+        self.scoreLabel.text = "score: \(user.score)"
+        self.likeButton.isSelected = user.isLike
+    }
+    
+    func setUI(user: [String: Any], at index: Int){
+        self.index = index
+        self.profileImageView.kf.setImage(with: URL(string: user["avatar_url"] as! String))
+        self.usernameLabel.text = user["login"] as? String
+        self.scoreLabel.text = "score: \(user["score"] as! Double)"
+        self.likeButton.isSelected = user["isLike"] as! Bool
+    }
+    
+    func setUI(user: GithubUser, at index: Int){
+        self.index = index
         self.profileImageView.kf.setImage(with: URL(string: user.avatar_url))
         self.usernameLabel.text = user.login
         self.scoreLabel.text = "score: \(user.score)"

@@ -7,13 +7,13 @@
 //
 
 import SwiftyJSON
-
+import RealmSwift
 class GithubUserModel {
     
-    var avatar_url: String
-    var login: String
-    var score: Double
-    var isLike: Bool = false
+    @objc dynamic var avatar_url: String = ""
+    @objc dynamic var login: String = ""
+    @objc dynamic var score: Double = 0
+    @objc dynamic var isLike: Bool = false
     
     init?(dic: [String: Any]) {
         guard let avatar_url = dic["avatar_url"] as? String else{ return nil }
