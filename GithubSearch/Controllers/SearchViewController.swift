@@ -138,8 +138,8 @@ extension SearchViewController: UITableViewDataSource {
             fatalError("Not found UserListCell")
         }
         cell.delegate = self
-        print(self.userList[indexPath.row].isLike)
         cell.setUI(user: self.userList[indexPath.row], at: indexPath.row)
+        
         return cell
     }
     
@@ -177,13 +177,8 @@ extension SearchViewController: UserListCellDelegate {
             print(realm.objects(GithubUser.self))
             
         }else{
-            
-            try! realm.write {
-                let newGithubUser = GithubUser()
-                newGithubUser.avatar_url = self.userList[index].avatar_url
-                newGithubUser.login = self.userList[index].login
-                newGithubUser.score = self.userList[index].score
-                newGithubUser.isLike = self.userList[index].isLike
+            try! realm.write{
+                let newGithubUser = realm.objects(GithubUser.self).filter("login == %@", self.userList[index].login)
                 
                 realm.delete(newGithubUser)
             }

@@ -21,6 +21,7 @@ class LikeViewController: UITableViewController {
         userListCell = UserListCell(style: .default, reuseIdentifier: "Cell")
         self.users = self.realm.objects(GithubUser.self)
         self.title = "LIKE"
+        self.tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -48,7 +49,15 @@ class LikeViewController: UITableViewController {
 
 extension LikeViewController: UserListCellDelegate {
     func clicked(iSelected: Bool, index: Int) {
-        
+        if(iSelected){
+        }else{
+            try! realm.write{
+                let newGithubUser = realm.objects(GithubUser.self).filter("login == %@", self.users?[index].login)
+                
+                realm.delete(newGithubUser)
+            }
+            self.tableView.reloadData()
+        }
     }
     
     

@@ -1,6 +1,7 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 
 protocol UserListCellDelegate {
     func clicked(iSelected: Bool, index: Int)
@@ -12,6 +13,7 @@ class UserListCell: UITableViewCell {
     var isClicked: Bool = false
     var index: Int?
     var delegate: UserListCellDelegate?
+    var realm = try! Realm()
     
     //컨텐츠 뷰
     let baseView: UIView = {
@@ -130,11 +132,20 @@ class UserListCell: UITableViewCell {
     }
     
     func setUI(user: GithubUserModel, at index: Int){
+        try! realm.write{
+            let newGithubUser = realm.objects(GithubUser.self).filter("login == %@", user.login)
+            if(user.login == newGithubUser.first?.login){
+                self.likeButton.isSelected = true
+            }else{
+                self.likeButton.isSelected = user.isLike
+            }
+            
+        }
         self.index = index
         self.profileImageView.kf.setImage(with: URL(string: user.avatar_url))
         self.usernameLabel.text = user.login
         self.scoreLabel.text = "score: \(user.score)"
-        self.likeButton.isSelected = user.isLike
+        
     }
     
     func setUI(user: [String: Any], at index: Int){
